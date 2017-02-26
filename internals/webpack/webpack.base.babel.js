@@ -24,7 +24,6 @@ module.exports = (options) => ({
       // they will be a part of our compilation either way.
       // So, no need for ExtractTextPlugin here.
       test: /\.css$/,
-      include: /node_modules/,
       loaders: ['style-loader', 'css-loader'],
     }, {
       test: /\.(eot|svg|ttf|woff|woff2)$/,
@@ -75,8 +74,22 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": 'jquery',
+      fetch: "fetch"
+    })
   ]),
   resolve: {
+    alias: {
+      moment: 'moment/moment.js',
+      jquery: 'jquery',
+      switchery: 'switchery',
+      d3: 'd3',
+      fetch: "whatwg-fetch",
+      "envConfig": path.resolve(__dirname, `./configs/config.${process.env.ENV}.js`)
+    },
     modules: ['app', 'node_modules'],
     extensions: [
       '.js',
